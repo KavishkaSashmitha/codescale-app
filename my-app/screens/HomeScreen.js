@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
+
 import {
   View,
   Text,
@@ -10,7 +11,6 @@ import {
   TextInput,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import Voice from '@react-native-voice/voice';
 import * as Speech from 'expo-speech';
 
 const HomeScreen = () => {
@@ -41,12 +41,11 @@ const HomeScreen = () => {
   };
 
   const handleVoiceInput = async () => {
+    // Assume that startListening is a method from some voice recognition library
     try {
-      await Voice.start('en-US'); // Start voice recognition
-      Voice.onSpeechResults = (event) => {
-        const spokenText = event.value[0]; // Get the recognized text
-        setSearchText(spokenText);
-      };
+      // Mocking a speech recognition function
+      const spokenText = await Speech.getRecognition().startListening();
+      setSearchText(spokenText);
     } catch (error) {
       console.error('Error with voice recognition:', error);
     }
@@ -77,6 +76,7 @@ const HomeScreen = () => {
           <Ionicons name="mic-outline" size={24} color="#fff" />
         </TouchableOpacity>
       </View>
+
       <FlatList
         data={filteredCharacters}
         keyExtractor={(item) => item.id.toString()}
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   settingsButton: {
     position: 'absolute',
     top: 20,
-    right: 70, // Adjusted to space out from mic button
+    right: 20, // Adjusted to place the button in the top right corner
     backgroundColor: 'transparent',
     padding: 10,
     zIndex: 1,
@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 5,
+    marginTop: 60, // Adjusted to position below the settings button
     marginBottom: 20,
   },
   searchInput: {

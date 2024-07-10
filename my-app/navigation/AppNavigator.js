@@ -21,7 +21,7 @@ const AppNavigator = ({ user }) => {
         initialRouteName={user ? 'Home' : 'Welcome'}
         screenOptions={{
           headerShown: false,
-          ...darkScreenOptions, // Apply dark theme styles
+          ...darkScreenOptions,
         }}
       >
         {user ? (

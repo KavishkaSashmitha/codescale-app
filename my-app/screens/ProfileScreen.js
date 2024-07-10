@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { signOut } from 'firebase/auth';
-import { auth } from '../firebaseConfig';
+import { analytics, auth } from '../firebaseConfig';
 
 const ProfileScreen = ({ navigation }) => {
   const handleLogout = () => {

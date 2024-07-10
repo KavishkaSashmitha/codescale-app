@@ -11,7 +11,7 @@ import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth, db } from '../firebaseConfig'; // Ensure the path is correct
 import { setDoc, doc } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
-import { MaterialIcons } from '@expo/vector-icons'; // Import icon library
+import { MaterialIcons } from '@expo/vector-icons';
 
 const SignUpScreen = () => {
   const [name, setName] = useState('');
