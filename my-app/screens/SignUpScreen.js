@@ -112,21 +112,24 @@ const SignUpScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Sign Up</Text>
+      {errors.name && <Text style={styles.validationText}>{errors.name}</Text>}
       <TextInput
         style={styles.input}
         placeholder="Name"
         value={name}
         onChangeText={setName}
       />
-      {errors.name && <Text style={styles.validationText}>{errors.name}</Text>}
+      {errors.email && (
+        <Text style={styles.validationText}>{errors.email}</Text>
+      )}
       <TextInput
         style={styles.input}
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
       />
-      {errors.email && (
-        <Text style={styles.validationText}>{errors.email}</Text>
+      {errors.password && (
+        <Text style={styles.validationText}>{errors.password}</Text>
       )}
       <TextInput
         style={styles.input}
@@ -135,8 +138,8 @@ const SignUpScreen = () => {
         onChangeText={setPassword}
         secureTextEntry
       />
-      {errors.password && (
-        <Text style={styles.validationText}>{errors.password}</Text>
+      {errors.confirmPassword && (
+        <Text style={styles.validationText}>{errors.confirmPassword}</Text>
       )}
       <TextInput
         style={styles.input}
@@ -145,9 +148,7 @@ const SignUpScreen = () => {
         onChangeText={setConfirmPassword}
         secureTextEntry
       />
-      {errors.confirmPassword && (
-        <Text style={styles.validationText}>{errors.confirmPassword}</Text>
-      )}
+
       <View style={styles.requirementsContainer}>
         {renderPasswordRequirement(
           'At least 8 characters',
@@ -220,7 +221,8 @@ const styles = StyleSheet.create({
   validationText: {
     fontSize: 12,
     color: '#FF5E5B',
-    marginTop: 4,
+    marginTop: 0,
+    marginLeft: 4,
   },
   requirementsContainer: {
     marginBottom: 12,
