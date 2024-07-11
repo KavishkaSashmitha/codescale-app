@@ -25,7 +25,13 @@ const SignUpScreen = () => {
     length: false,
     number: false,
     specialChar: false,
+    upperCase: false,
+    lowerCase: false,
   });
+
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
+    useState(false);
 
   useEffect(() => {
     validateForm();
@@ -51,6 +57,8 @@ const SignUpScreen = () => {
         length: password.length >= 8,
         number: /\d/.test(password),
         specialChar: /[!@#$%^&*(),.?":{}|<>]/.test(password),
+        upperCase: /[A-Z]/.test(password),
+        lowerCase: /[a-z]/.test(password),
       });
       if (password.length < 8) {
         errors.password = 'Password must be at least 8 characters.';
@@ -114,7 +122,7 @@ const SignUpScreen = () => {
       <Text style={styles.title}>Sign Up</Text>
       {errors.name && <Text style={styles.validationText}>{errors.name}</Text>}
       <TextInput
-        style={styles.input}
+        style={styles.input_1}
         placeholder="Name"
         value={name}
         onChangeText={setName}
@@ -123,7 +131,7 @@ const SignUpScreen = () => {
         <Text style={styles.validationText}>{errors.email}</Text>
       )}
       <TextInput
-        style={styles.input}
+        style={styles.input_1}
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
@@ -131,23 +139,47 @@ const SignUpScreen = () => {
       {errors.password && (
         <Text style={styles.validationText}>{errors.password}</Text>
       )}
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry={!isPasswordVisible}
+        />
+        <TouchableOpacity
+          style={styles.icon}
+          onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+        >
+          <MaterialIcons
+            name={isPasswordVisible ? 'visibility' : 'visibility-off'}
+            size={24}
+            color="#C0C0C0"
+          />
+        </TouchableOpacity>
+      </View>
       {errors.confirmPassword && (
         <Text style={styles.validationText}>{errors.confirmPassword}</Text>
       )}
-      <TextInput
-        style={styles.input}
-        placeholder="Confirm Password"
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        secureTextEntry
-      />
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Confirm Password"
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          secureTextEntry={!isConfirmPasswordVisible}
+        />
+        <TouchableOpacity
+          style={styles.icon}
+          onPress={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)}
+        >
+          <MaterialIcons
+            name={isConfirmPasswordVisible ? 'visibility' : 'visibility-off'}
+            size={24}
+            color="#C0C0C0"
+          />
+        </TouchableOpacity>
+      </View>
 
       <View style={styles.requirementsContainer}>
         {renderPasswordRequirement(
@@ -161,6 +193,14 @@ const SignUpScreen = () => {
         {renderPasswordRequirement(
           'Contains a special character',
           passwordRequirements.specialChar
+        )}
+        {renderPasswordRequirement(
+          'Contains an uppercase letter',
+          passwordRequirements.upperCase
+        )}
+        {renderPasswordRequirement(
+          'Contains a lowercase letter',
+          passwordRequirements.lowerCase
         )}
       </View>
       <TouchableOpacity
@@ -188,7 +228,7 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#2A2A2A',
   },
-  input: {
+  input_1: {
     height: 40,
     marginBottom: 12,
     paddingHorizontal: 8,
@@ -200,6 +240,31 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 2,
+  },
+  input: {
+    flex: 1,
+    height: 40,
+    marginBottom: 12,
+    paddingHorizontal: 8,
+    backgroundColor: '#3D3D3D',
+    color: '#C0C0C0',
+    borderRadius: 12,
+  },
+  inputContainer: {
+    marginTop: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#3D3D3D',
+    borderRadius: 12,
+    marginBottom: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  icon: {
+    padding: 8,
   },
   button: {
     backgroundColor: '#FFD482',
@@ -226,15 +291,19 @@ const styles = StyleSheet.create({
   },
   requirementsContainer: {
     marginBottom: 12,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   requirement: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 4,
+    width: '50%',
   },
   requirementText: {
     marginLeft: 8,
     color: '#FFF',
+    fontSize: 10,
   },
   successText: {
     fontSize: 12,
